@@ -197,7 +197,7 @@ df['new_column'] = df.apply(lambda row: custom_function(row), axis=1)
 print(df)
 """
 #work number 8
-
+"""
 import pandas as pd
 
 # Загрузим данные из файла
@@ -215,4 +215,40 @@ most_unprofitable_film = filtered_df.loc[filtered_df['profit_loss'].idxmin()]
 # Выводим информацию о самом убыточном фильме
 print("Самый убыточный фильм:")
 print(most_unprofitable_film[['original_title', 'profit_loss']])
+"""
+#work number 9
+"""
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
+# Загрузка данных из файла tips.csv
+tips = pd.read_csv('tips.csv')
+
+# Создание графика
+plt.figure(figsize=(12, 8))
+
+# Используем sns.barplot для столбчатой диаграммы с разделением по курящим и некурящим
+ax = sns.barplot(x='day', y='tip', hue='smoker', data=tips, palette={'No': 'skyblue', 'Yes': 'salmon'}, ci=None)
+
+# Настройка графика
+plt.title('Average Tips by Day and Smoking Status', fontsize=16)
+plt.xlabel('Day of the Week', fontsize=14)
+plt.ylabel('Average Tip Amount', fontsize=14)
+plt.legend(title='Smoker', loc='upper right', labels=['Non-Smoker', 'Smoker'], fontsize=12)
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+# Добавление аннотации для пояснения графика
+plt.annotate('Weekend', xy=(4.5, 3), xytext=(5.5, 4), arrowprops=dict(facecolor='black', arrowstyle='->'), fontsize=12)
+
+# Добавление дополнительных элементов для лучшего восприятия
+sns.despine(trim=True, left=True)
+
+# Исправление наложения табличек
+ax.legend(title='Smoker', loc='upper right', labels=['Non-Smoker', 'Smoker'])
+
+# Вывод графика
+plt.show()
+"""
