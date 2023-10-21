@@ -104,7 +104,7 @@ with open('data.json', 'r') as json_file:
         if "category" in entry and entry["category"] in ["page", "report"]:
             names.append(entry["client_id"])
     for name in names:
-        if names.count(name) > 1:
+        if names.count(name) == 1:
             k += 1
 print("Количество клиентов с действиями в категориях 'page' или 'report':", k)
 
@@ -144,9 +144,9 @@ variance_B2 = sum_squares_diff / (n*m)
 print("Дисперсия элементов матрицы через программирование формулы", round(variance_B2, 2))
 """
 #work number 6
-"""
-import pandas as pd
 
+import pandas as pd
+"""
 # Загрузка данных из файла
 df = pd.read_csv('football.csv')
 
@@ -252,3 +252,55 @@ ax.legend(title='Smoker', loc='upper right', labels=['Non-Smoker', 'Smoker'])
 # Вывод графика
 plt.show()
 """
+
+#work number 10
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+import matplotlib.pyplot as plt
+
+# Загрузка данных
+file_path = 'mycar_lin.csv'  # Замени путь_к_файлу на реальный путь к файлу
+data = pd.read_csv(file_path)
+
+# Посмотрим на первые несколько строк данных
+print(data.head())
+
+# Выбор признаков и целевой переменной
+X = data[['Speed']]
+y = data['Stopping_dist']
+
+# Разделение данных на обучающий и тестовый наборы
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Создание и обучение модели линейной регрессии
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Прогнозирование на тестовом наборе
+y_pred = model.predict(X_test)
+
+# Оценка качества модели
+mae = mean_absolute_error(y_test, y_pred)
+rmse = mean_squared_error(y_test, y_pred, squared=False)
+r2 = r2_score(y_test, y_pred)
+
+# Визуализация результатов
+plt.scatter(X_test, y_test, color='black', label='Actual')
+plt.plot(X_test, y_pred, color='blue', linewidth=3, label='Predicted')
+plt.xlabel('Speed')
+plt.ylabel('Stopping Distance')
+plt.title('Linear Regression Model')
+plt.legend()
+plt.show()
+
+# Вывод характеристик модели
+print(f'Mean Absolute Error (MAE): {mae}')
+print(f'Root Mean Squared Error (RMSE): {rmse}')
+print(f'R-squared (R2): {r2}')
+
+# Вывод коэффициентов модели
+print('Intercept:', model.intercept_)
+print('Coefficient:', model.coef_[0])
