@@ -251,10 +251,10 @@ ax.legend(title='Smoker', loc='upper right', labels=['Non-Smoker', 'Smoker'])
 
 # Вывод графика
 plt.show()
+
 """
-
 #work number 10
-
+"""
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -273,7 +273,7 @@ X = data[['Speed']]
 y = data['Stopping_dist']
 
 # Разделение данных на обучающий и тестовый наборы
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.9, random_state=42)
 
 # Создание и обучение модели линейной регрессии
 model = LinearRegression()
@@ -304,3 +304,195 @@ print(f'R-squared (R2): {r2}')
 # Вывод коэффициентов модели
 print('Intercept:', model.intercept_)
 print('Coefficient:', model.coef_[0])
+
+"""
+#work number 11 (last)
+#task 1.3
+import pandas as pd
+
+df = pd.read_csv('cacao_flavors.csv')
+df.columns = ['bar_id', 'company', 'specific_origin', 'ref', 'review_date', 'cocoa_percent', 'company_location', 'rating', 'bean_type', 'broad_origin']
+df.to_csv('cacao_flavors.csv', index=False)
+
+#task 1.4.1
+"""
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('cacao_flavors.csv')
+unique_bar_ids = df['bar_id'].nunique()
+print(f"Количество уникальных значений в 'bar_id': {unique_bar_ids}")
+plt.figure(figsize=(10, 6))
+plt.bar(df['bar_id'], df['rating'], color='black')
+plt.xlabel('Bar ID')
+plt.ylabel('Rating')
+plt.title('Rating by Bar ID')
+plt.grid(True)
+plt.show()
+"""
+#task 1.4.2
+"""
+company_counts = df['company'].value_counts()
+selected_companies = company_counts[company_counts > 10]
+filtered_df = df[df['company'].isin(selected_companies.index)]
+print(filtered_df['company'].unique())
+all_companies_count = len(df['company'].unique())
+print(f"Всего компаний: {all_companies_count}")
+filtered_companies_count = len(filtered_df['company'].unique())
+print(f"Количество отфильтрованных компаний: {filtered_companies_count}")
+"""
+#task 1.4.3
+"""
+unique_regions_count = df['specific_origin'].nunique()
+print(f"Количество оригинальных регионов: {unique_regions_count}")
+
+specific_origin_counts = df['specific_origin'].value_counts()
+more_than_10_count = (specific_origin_counts > 10).sum()
+print(f"Количество значений specific_origin, встретившихся более 10 раз: {more_than_10_count}")
+"""
+#task 1.4.4
+"""
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(12, 6))
+sns.histplot(df['ref'], bins=30, kde=True, color='skyblue')
+plt.xlabel('REF')
+plt.ylabel('Частота')
+plt.title('Распределение данных REF')
+plt.grid(True)
+plt.show()
+
+print(f"Максимальное значение REF: {df['ref'].max()}")
+print(f"Минимальное значение REF: {df['ref'].min()}")
+print(f"Количество пропусков REF: {df['ref'].isnull().sum()}")
+"""
+#task 1.4.5
+"""
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(10, 6))
+sns.histplot(df['review_date'], bins=30, kde=True, color='salmon')
+plt.xlabel('Review Date')
+plt.ylabel('Частота')
+plt.title('Распределение данных Review Date')
+plt.grid(True)
+plt.show()
+
+print(f"Макс Review Date: {df['review_date'].max()}")
+print(f"Мин Review Date: {df['review_date'].min()}")
+print(f"Кол-во пропусков Review Date: {df['review_date'].isnull().sum()}")
+"""
+#task 1.4.6
+"""
+import matplotlib.pyplot as plt
+import seaborn as sns
+df['cocoa_percent'] = df['cocoa_percent'].str.rstrip('%').astype('float') / 100.0
+plt.figure(figsize=(10, 6))
+sns.histplot(df['cocoa_percent'], bins=30, kde=True, color='green')
+plt.xlabel('Cocoa Percent')
+plt.ylabel('Частота')
+plt.title('Распределение данных Cocoa Percent')
+plt.grid(True)
+plt.show()
+print(f"Макс Cocoa Percent: {df['cocoa_percent'].max()}")
+print(f"МинCocoa Percent: {df['cocoa_percent'].min()}")
+print(f"Кол-во пропусков Cocoa Percent: {df['cocoa_percent'].isnull().sum()}")
+"""
+#task 1.4.7
+"""
+total_countries = df['company_location'].nunique()
+print(f"Всего стран в столбце company_location: {total_countries}")
+more_10_reviews = df['company_location'].value_counts()
+more_10_reviews = more_10_reviews[more_10_reviews > 10]
+print(f"Количество стран с более чем 10 ревью: {len(more_10_reviews)}")
+"""
+#task 1.4.8
+"""
+import matplotlib.pyplot as plt
+import seaborn as sns
+# Построим ящик с усами (boxplot) для столбца Rating
+# Ящик с усами - график, показывающий основные статистические характеристики данных, такие как медиана, квартили и выбросы.
+plt.figure(figsize=(8, 6))
+sns.boxplot(x=df['rating'], color='orange')
+plt.xlabel('rating')
+plt.title('Ящик с усами для столбца Rating')
+plt.show()
+"""
+#task 1.4.9
+"""
+missing_values = df['bean_type'].isnull().sum()
+print(f"Кол-во пропусков в Bean Type: {missing_values}")
+bean_type_counts = df['bean_type'].value_counts()
+more_than_10 = bean_type_counts[bean_type_counts > 10]
+print(f"Кол-во значений Bean Type, встретившихся > 10 раз: {len(more_than_10)}")
+
+# Отфильтруем данные
+filtered_df = df[df['bean_type'].isin(more_than_10.index)]
+"""
+#task 1.4.10.1
+"""
+missing_values = df['broad_origin'].isnull().sum()
+print(f"Количество пропусков в столбце broad_origin: {missing_values}")
+broad_origin_counts = df['broad_origin'].value_counts()
+more_than_10 = broad_origin_counts[broad_origin_counts > 10]
+print(f"Количество значений в столбце broad_origin, встретившихся более 10 раз: {len(more_than_10)}")
+unique_values = df['broad_origin'].nunique()
+print(f"Количество уникальных значений в столбце broad_origin: {unique_values}")
+
+# Отфильтруем данные
+filtered_df = df[df['broad_origin'].isin(more_than_10.index)]
+"""
+#1.4.10.2
+"""
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+numeric_data = df.select_dtypes(include=['float64', 'int64'])
+correlation_matrix = numeric_data.corr()
+
+plt.figure(figsize=(10, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', linewidths=.5)
+plt.title('Матрица корреляций числовых данных')
+plt.show()
+"""
+
+#task 1.4.10.3
+"""
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+categorical_columns = ['company_location', 'bean_type', 'broad_origin']
+
+for column in categorical_columns:
+    plt.figure(figsize=(12, 6))
+    sns.countplot(x=column, data=df, palette='viridis')
+    plt.title(f'Распределение переменной {column}')
+    plt.xticks(rotation=45)
+    plt.show()
+"""
+#main task number 11
+"""
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+
+file_path = 'cacao_flavors.csv'
+data = pd.read_csv(file_path)
+
+features = data[['ref']]
+target = data['rating']
+X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.9, random_state=42)
+model = LinearRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+plt.scatter(X_test, y_test, color='black', label='Actual')
+plt.scatter(X_test, y_pred, color='blue', linewidth=3, label='Predicted')
+plt.xlabel('Ref')
+plt.ylabel('Rating')
+plt.title('Linear Regression Model')
+plt.legend()
+plt.show()
+"""
