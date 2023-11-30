@@ -305,7 +305,7 @@ print(f'R-squared (R2): {r2}')
 print('Intercept:', model.intercept_)
 print('Coefficient:', model.coef_[0])
 
-"""
+
 #work number 11 (last)
 #task 1.3
 import pandas as pd
@@ -313,7 +313,7 @@ import pandas as pd
 df = pd.read_csv('cacao_flavors.csv')
 df.columns = ['bar_id', 'company', 'specific_origin', 'ref', 'review_date', 'cocoa_percent', 'company_location', 'rating', 'bean_type', 'broad_origin']
 df.to_csv('cacao_flavors.csv', index=False)
-
+"""
 #task 1.4.1
 """
 import pandas as pd
@@ -496,3 +496,109 @@ plt.title('Linear Regression Model')
 plt.legend()
 plt.show()
 """
+#liza variant 15
+#work number 5
+'''
+import numpy as np
+n = 5  
+A = np.random.randint(1, 100, size=(n, n))
+print("Исходная матрица:")
+print(A)
+for i in range(n):
+    max_element_index = np.argmax(A[i, :])
+    A[i, max_element_index], A[i, i] = A[i, i], A[i, max_element_index]
+print("\nМатрица после обмена:")
+print(A)
+diagonal_elements = np.diagonal(A)
+median_standard = np.median(diagonal_elements)
+sorted_diagonal = np.sort(diagonal_elements)
+length = len(sorted_diagonal)
+if length % 2 == 0:
+    median_formula = (sorted_diagonal[length // 2 - 1] + sorted_diagonal[length // 2]) / 2
+else:
+    median_formula = sorted_diagonal[length // 2]
+print("\nМедиана (стандартная функция):", median_standard)
+print("Медиана (программирование формулы):", median_formula)
+'''
+#work number 6
+'''
+import pandas as pd
+
+# Загрузка данных
+data = pd.read_csv("football.csv")
+
+# Расчет среднего возраста игроков с реакцией выше средней и максимальным числом пенальти
+above_avg_reactions = data[data['Reactions'] > data['Reactions'].mean()]
+max_penalties = data[data['Penalties'] == data['Penalties'].max()]
+avg_age_reactions_penalties = above_avg_reactions['Age'].mean()
+
+# Расчет среднего возраста игроков с уровнем агрессии выше среднего и максимальной скоростью
+above_avg_aggression = data[data['Aggression'] > data['Aggression'].mean()]
+max_sprint_speed = data[data['SprintSpeed'] == data['SprintSpeed'].max()]
+avg_age_aggression_speed = above_avg_aggression['Age'].mean()
+
+# Расчет разницы между средними возрастами
+age_difference = avg_age_reactions_penalties - avg_age_aggression_speed
+
+print("Разница между средним возрастом игроков с реакцией выше средней и максимальным числом пенальти, и средним возрастом игроков с уровнем агрессии выше среднего и максимальной скоростью:", age_difference)
+'''
+#work number 7
+#A)
+'''
+import pandas as pd
+
+# Загрузка данных
+data_students = pd.read_csv("StudentsPerformance.csv")
+
+# Подсчет уникальных этнических групп
+unique_ethnic_groups = data_students['race/ethnicity'].unique()
+
+# Вывод результатов
+print("Количество разных этнических групп:", len(unique_ethnic_groups))
+print("Эти группы:", unique_ethnic_groups)
+
+#B)
+def process_string(input_string):
+    # Подсчет количества пробелов
+    spaces_count = input_string.count(' ')
+
+    # Поиск индекса символа "―"
+    dash_index = input_string.find('―')
+
+    # Умножение индекса на количество пробелов и выделение соответствующей подстроки
+    result = input_string[:spaces_count * dash_index]
+
+    return result
+
+# Применение функции к столбцу "parental level of education" через лямбда-функцию
+data_students['processed_parental_level'] = data_students['parental level of education'].apply(lambda x: process_string(x))
+
+# Вывод результата
+print(data_students[['parental level of education', 'processed_parental_level']])
+'''
+#work number 8
+'''
+import pandas as pd
+
+# Загрузка данных
+data_films = pd.read_csv("films.csv")
+
+# Подсчет количества фильмов для каждого режиссера
+directors_counts = data_films['director'].value_counts()
+
+# Получение режиссера с наибольшим количеством фильмов
+most_films_director = directors_counts.idxmax()
+num_films = directors_counts.max()
+
+print("Режиссер снял больше всего фильмов:")
+print(f"{most_films_director} - {num_films} фильмов")
+'''
+#karina v1n2
+N = int(input("ВВедите объем цистерны: "))
+m = int(input("Введите количество литров, доставляемые роботом: "))
+k = 0
+l = 0
+while l <= N:
+    l += m + k*m
+    k+=1
+print(k)
